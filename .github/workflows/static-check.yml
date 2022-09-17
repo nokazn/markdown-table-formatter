@@ -1,0 +1,26 @@
+name: "static-check"
+
+on:
+  push:
+    branches:
+      - "develop"
+      - "main"
+  pull_request:
+
+jobs:
+  static-check:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: "v1.x"
+      - name: Check unformatted sources
+        run: |
+          deno fmt --check
+      - name: Lint
+        run: |
+          deno lint
+      - name: Run tests
+        run: |
+          deno test
